@@ -1,0 +1,22 @@
+name: "Update Cluster Instance Configuration"
+description: "Update the configuration of the cluster instance"
+inputs:
+  spheron-token:
+    description: "A spheron token for compute organization"
+    required: true
+  instance-id:
+    description: "The id of the cluster instance"
+    required: true
+  tag:
+    description: "The tag of the docker image to run"
+    required: false
+    default: "latest"
+  env:
+    description: "Environment variables. Format: key1=value1,key2=value2,..."
+    required: false
+  secret-env:
+    description: "Secret environment variables. Format: key1=value1,key2=value2,..."
+    required: false
+runs:
+  using: "node16"
+  main: "index.js"
