@@ -47,15 +47,10 @@ const main = async () => {
       tag,
     };
 
-    console.log(JSON.stringify(updateRequestBody));
-
     const updateResponse = await http.patchJson(
       `https://api-v2.spheron.network/v1/cluster-instance/${instanceId}/update`,
       updateRequestBody
     );
-
-    console.log(updateResponse.statusCode);
-    console.log(updateResponse.result);
 
     if (!updateResponse.result.success || updateResponse.result.error) {
       core.setFailed(scope.message);
@@ -64,7 +59,10 @@ const main = async () => {
 
     const clusterId = updateResponse.result.clusterId;
     const orderId = updateResponse.result.clusterInstanceOrderId;
+    const message = updateResponse.result.message;
 
+    console.log(`Status: ${message}`);
+    console.log("Checkout logs at:");
     console.log(
       `https://app.spheron.network/#/compute/org/${organizationId}/cluster/${clusterId}/instance/${orderId}/logs`
     );
