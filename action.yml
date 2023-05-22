@@ -17,6 +17,15 @@ inputs:
   secret-env:
     description: "Secret environment variables. Format: key1=value1,key2=value2,..."
     required: false
+outputs:
+  cluster-id:
+    description: "The id of the cluster"
+  instance-id:
+    description: "The id of the cluster instance"
+  order-id:
+    description: "The id of the order"
+  organization-id:
+    description: "The id of the organization"
 runs:
   using: "node16"
   main: "index.js"

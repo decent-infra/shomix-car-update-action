@@ -35,25 +35,44 @@ const main = async () => {
       return;
     }
 
+    const organizationId = scope.organizations[0].id;
+
     const updateRequestBody = {
       env: [
         ...mapVariables(inputVariables, false),
         ...mapVariables(secretInputVariables, true),
       ],
       uniqueTopicId: uuid.v4(),
-      organizationId: scope.organizations[0].id,
+      organizationId,
       tag,
     };
 
     console.log(JSON.stringify(updateRequestBody));
 
-    const createResponse = await http.patchJson(
+    const updateResponse = await http.patchJson(
       `https://api-v2.spheron.network/v1/cluster-instance/${instanceId}/update`,
       updateRequestBody
     );
 
-    console.log(createResponse.statusCode);
-    console.log(createResponse.result);
+    console.log(updateResponse.statusCode);
+    console.log(updateResponse.result);
+
+    if (!updateResponse.result.success || updateResponse.result.error) {
+      core.setFailed(scope.message);
+      return;
+    }
+
+    const clusterId = updateResponse.result.clusterId;
+    const orderId = updateResponse.result.clusterInstanceOrderId;
+
+    console.log(
+      `https://app.spheron.network/#/compute/org/${organizationId}/cluster/${clusterId}/instance/${orderId}/logs`
+    );
+
+    core.setOutput("cluster-id", clusterId);
+    core.setOutput("instance-id", instanceId);
+    core.setOutput("order-id", orderId);
+    core.setOutput("organization-id", organizationId);
   } catch (error) {
     core.setFailed(error.message);
   }
