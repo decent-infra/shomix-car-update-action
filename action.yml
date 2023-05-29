@@ -1,4 +1,4 @@
-name: "Update Cluster Instance Configuration"
+name: "Update Cluster Instance Configuration 2"
 description: "Update the configuration of the cluster instance"
 inputs:
   spheron-token:
